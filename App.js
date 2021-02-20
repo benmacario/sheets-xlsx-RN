@@ -6,7 +6,7 @@ import { FileSystem } from 'react-native-unimodules';
 import { RectButton } from 'react-native-gesture-handler';
 
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Alert, SafeAreaView, FlatList } from 'react-native';
+import { StyleSheet, Text, View, Alert, SafeAreaView, ScrollView } from 'react-native';
 
 
 
@@ -40,6 +40,7 @@ export default function App() {
   }
   //
   return (
+    <SafeAreaView style={{flex: 1}}>
     <View style={styles.container}>
       <View style={styles.viewComponent}>
         <RectButton style={styles.button} onPress={handleDocument}>
@@ -52,35 +53,38 @@ export default function App() {
             IMPORTAR ARQUIVO DE PLANILHA
           </Text>
         </RectButton>
-        <View style={styles.viewData}>
-          {data ?
-            data.map(infos => { return(
-              <View key={infos.name}>
-                <Text style={styles.textInfo}>Nome: {infos.name}</Text>
-                <Text style={styles.textInfo}>Sobrenome: {infos.sobrenomes}</Text>
-                <View style={{
-                  marginVertical: 10,
-                  borderBottomWidth: 1,
-                  borderBottomColor: "#E4E4E4"}}
-                />
-              </View>
-            )}) : <Text>Clique em IMPORT XLSX</Text>
-          }
-        </View>
+          <ScrollView style={styles.viewData} showsVerticalScrollIndicator={false}>
+              {data ?
+                data.map(infos => { return(
+                  <View key={infos.name}>
+                    <Text style={styles.textInfo}>Nome: {infos.name}</Text>
+                    <Text style={styles.textInfo}>Sobrenome: {infos.sobrenomes}</Text>
+                    <View style={{
+                      marginVertical: 10,
+                      borderBottomWidth: 1,
+                      borderBottomColor: "#E4E4E4"}}
+                    />
+                  </View>
+                )}) : <Text>Clique em IMPORT XLSX</Text>
+              }
+          </ScrollView>
       </View>
       <StatusBar style="light" backgroundColor= "#075E33"/>
     </View>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    top: StatusBar.currentHeight,
     backgroundColor: '#E9F2EF',
   },
   
   viewComponent: {
     top: 60,
+    marginBottom: 130,
     alignItems: 'center',
     marginHorizontal: 20,
   },
@@ -102,6 +106,7 @@ const styles = StyleSheet.create({
   
   viewData: {
     width: '100%',
+    marginBottom: 20,
     backgroundColor: '#FFFFFF',
     borderRadius: 8,
     shadowColor: '#000',
