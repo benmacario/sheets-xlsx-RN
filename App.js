@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
+import { StyleSheet, Text, View, Alert, SafeAreaView, ScrollView } from 'react-native';
+import { StatusBar } from 'expo-status-bar';
+
 import XLSX from 'xlsx';
 import * as DocumentPicker from 'expo-document-picker';
-
 import { FileSystem } from 'react-native-unimodules';
 import { RectButton } from 'react-native-gesture-handler';
 
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Alert, SafeAreaView, ScrollView } from 'react-native';
 
 
 
@@ -16,21 +16,25 @@ export default function App() {
   // function picker file
   handleDocument = async () => {
     try {
-      const res = await DocumentPicker.getDocumentAsync({
+      const fileDoc = await DocumentPicker.getDocumentAsync({
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
       });
 
-      if(res.type !== 'success'){
+      if(fileDoc.type === "cancel") {
+        return
+      }
+
+      if(fileDoc.type !== 'success'){
         return Alert.alert('Não foi possivel carregar o arquivo');
       }
 
-      await FileSystem.readAsStringAsync(`${res.uri}`, {encoding: FileSystem.EncodingType.Base64})
+      await FileSystem.readAsStringAsync(`${fileDoc.uri}`, {encoding: FileSystem.EncodingType.Base64})
       .then(b64 => XLSX.read(b64, {type: 'base64'}))
-      .then(wb => {
-        const wsname = wb.SheetNames[0];
-        const ws = wb.Sheets[wsname];
+      .then(workbook => {
+        const worksheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[worksheetName];
         
-        const dataFile = XLSX.utils.sheet_to_json(ws, {header: 0});
+        const dataFile = XLSX.utils.sheet_to_json(worksheet, {header: 0});
         setData(dataFile);
       });
       
@@ -56,8 +60,8 @@ export default function App() {
           <ScrollView style={styles.viewData} showsVerticalScrollIndicator={false}>
               {data ?
                 data.map(infos => { return(
-                  <View key={infos.name}>
-                    <Text style={styles.textInfo}>Nome: {infos.name}</Text>
+                  <View key={infos.nomes}>
+                    <Text style={styles.textInfo}>Nome: {infos.nomes}</Text>
                     <Text style={styles.textInfo}>Sobrenome: {infos.sobrenomes}</Text>
                     <View style={{
                       marginVertical: 10,

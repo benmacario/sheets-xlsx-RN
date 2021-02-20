@@ -15,7 +15,7 @@
 
 ### Objetivo
 
-Aplicação destinada a mostrar como utilizar a biblioteca XLSX em React Native com Expo.
+Aplicação destinada amostrar como utilizar a biblioteca [XLSX](https://www.npmjs.com/package/xlsx) para leitura de arquivos de planilhas em React Native com Expo.
 
 ### Como usar?
 
@@ -23,6 +23,15 @@ Você vai precisar ter instalado em sua maquina:
 
 - [Node JS](https://nodejs.org/)
 - [Expo](https://expo.io/)
+
+Para teste, crie uma planilha com os campos:
+
+| nomes | sobrenomes |
+| ----- | ---------- |
+| nome1 | sobrenome1 |
+| nome2 | sobrenome2 |
+
+E faça os testes!
 
 ```bash
 # Dê um git Clone
@@ -33,7 +42,7 @@ $ git clone https://github.com/benmacario/sheets-xlsx-RN.git
 
 $ cd sheets-xlsx-RN
 
-# Instale as dependencias
+# Instale as dependências
 
 $ yarn
 
@@ -52,7 +61,7 @@ $ expo start
 # Talvez precise instalar o App da Expo Go em seu emulador/device
 ```
 
-### Referencias
+### Referências
 
 - [Document-Picker-Expo](https://docs.expo.io/versions/latest/sdk/document-picker/)
 - [File-System-Expo](https://docs.expo.io/versions/latest/sdk/filesystem/)
